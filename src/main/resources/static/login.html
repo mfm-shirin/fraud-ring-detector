@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Sign In | Fraud Ring Detector</title>
+
+    <link rel="stylesheet" href="/css/login.css">
+</head>
+
+<body>
+
+    <div class="login-container">
+
+        <!-- Left branding panel -->
+        <section class="brand-panel">
+
+            <div class="brand-content">
+
+                <div class="brand-logo">
+                    <span class="logo-icon">⬡</span>
+                    <span>FRAUD<span class="accent">RING</span></span>
+                </div>
+
+                <div class="brand-message">
+                    <p class="eyebrow">INTELLIGENCE • DETECTION • SECURITY</p>
+
+                    <h1>Follow the<br>
+                        <span class="accent">Money Trail.</span>
+                    </h1>
+
+                    <p class="brand-description">
+                        Detect suspicious transaction patterns.
+                        Uncover hidden connections. Protect the
+                        financial ecosystem.
+                    </p>
+                </div>
+
+                <div class="security-status">
+                    <span class="status-indicator"></span>
+                    SECURE ACCESS PORTAL
+                </div>
+
+            </div>
+
+            <div class="brand-footer">
+                FRAUD RING DETECTOR <span>•</span> STREAMING ANALYTICS ENGINE
+            </div>
+
+        </section>
+
+
+        <!-- Right login panel -->
+        <section class="form-panel">
+
+            <div class="login-card">
+
+                <div class="mobile-logo">
+                    FRAUD<span class="accent">RING</span>
+                </div>
+
+                <p class="form-eyebrow">WELCOME BACK</p>
+
+                <h2>Sign in to your account</h2>
+
+                <p class="form-description">
+                    Enter your credentials to access the security dashboard.
+                </p>
+
+
+                <form id="loginForm">
+
+                    <div class="form-group">
+                        <label for="username">Username</label>
+
+                        <input
+                            type="text"
+                            id="username"
+                            name="username"
+                            placeholder="Enter your username"
+                            autocomplete="username"
+                            required
+                        >
+                    </div>
+
+
+                    <div class="form-group">
+                        <div class="password-heading">
+                            <label for="password">Password</label>
+                        </div>
+
+                        <div class="password-wrapper">
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                placeholder="Enter your password"
+                                autocomplete="current-password"
+                                required
+                            >
+
+                            <button
+                                type="button"
+                                id="togglePassword"
+                                class="toggle-password"
+                                aria-label="Show password"
+                            >
+                                SHOW
+                            </button>
+                        </div>
+                    </div>
+
+
+                    <div id="loginMessage" class="login-message"
+                         role="alert" aria-live="polite"></div>
+
+
+                    <button type="submit" id="loginButton" class="login-button">
+                        <span id="buttonText">Sign In</span>
+                        <span class="button-arrow">→</span>
+                    </button>
+
+                </form>
+
+
+                <div class="access-note">
+                    <span class="lock-icon">◇</span>
+                    Protected by role-based access control
+                </div>
+
+            </div>
+
+            <footer class="form-footer">
+                <span>FRAUD RING DETECTOR</span>
+                <span>AUTHENTICATED ACCESS ONLY</span>
+            </footer>
+
+        </section>
+
+    </div>
+
+    <script src="/js/login.js"></script>
+
+</body>
+</html>

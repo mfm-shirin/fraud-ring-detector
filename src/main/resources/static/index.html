@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fraud Ring Detector | Security Dashboard</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+
+<header>
+    <div class="brand">
+        <div class="logo">⌁</div>
+        <div>
+            <h1>Fraud Ring Detector</h1>
+            <div class="subtitle">STREAMING ANALYTICS ENGINE</div>
+        </div>
+    </div>
+
+    <div class="status">
+        <span class="dot"></span>
+        <span id="connectionStatus">Connecting...</span>
+        <div class="profile-container">
+
+            <button
+                type="button"
+                id="profileButton"
+                class="profile-button"
+                aria-expanded="false"
+                aria-controls="profileDropdown"
+                aria-label="Open profile menu">
+
+                <span class="profile-avatar" id="profileAvatar">U</span>
+
+                <span class="profile-username" id="currentUsername">
+                    Loading...
+                </span>
+
+                <span class="profile-arrow">▾</span>
+
+            </button>
+
+            <div id="profileDropdown" class="profile-dropdown" hidden>
+
+                <div class="profile-info">
+                    <span class="profile-info-name" id="dropdownUsername">
+                        Loading...
+                    </span>
+
+                    <span class="profile-info-role" id="dropdownRole">
+                        Loading role...
+                    </span>
+                </div>
+
+                <div class="profile-divider"></div>
+
+                <button type="button" class="profile-menu-item" disabled>
+                    Account
+                </button>
+
+                <button type="button" class="profile-menu-item" disabled>
+                    Security
+                </button>
+
+                <div class="profile-divider"></div>
+
+                <form action="/logout" method="post" id="logoutForm">
+                    <input type="hidden" name="_csrf" id="logoutCsrfToken">
+
+                    <button type="submit" class="profile-logout">
+                        ↪ &nbsp; Logout
+                    </button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</header>
+
+<div class="app-layout">
+
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+        <div class="sidebar-heading">
+            <span class="sidebar-label">WORKSPACE</span>
+        </div>
+
+        <button class="nav-item active" data-tab="overview">
+            <span class="nav-icon">⌂</span>
+            <span>Overview</span>
+        </button>
+
+        <button class="nav-item" data-tab="alerts">
+            <span class="nav-icon">⚠</span>
+            <span>Fraud Alerts</span>
+        </button>
+
+        <button class="nav-item" data-tab="add-transaction">
+            <span class="nav-icon">＋</span>
+            <span>Add Transaction</span>
+        </button>
+
+        <div class="sidebar-heading admin-heading">
+            <span class="sidebar-label">ADMINISTRATION</span>
+        </div>
+
+        <button class="nav-item" data-tab="transactions">
+            <span class="nav-icon">▤</span>
+            <span>Transaction Monitor</span>
+            <span class="nav-tag">ADMIN</span>
+        </button>
+
+        <button class="nav-item" data-tab="user-access">
+            <span class="nav-icon">♙</span>
+            <span>User Access</span>
+            <span class="nav-tag">ADMIN</span>
+        </button>
+
+        <div class="sidebar-footer">
+            <span class="status-dot"></span>
+            <span>System Operational</span>
+        </div>
+    </aside>
+
+    <div class="main-content">
+    
+        <main>
+    <section class="page-heading" data-page="overview">
+        <h2>Security Overview</h2>
+        <p>Monitor transactions, investigate suspicious patterns, and review risk alerts.</p>
+    </section>
+
+    <section class="stats" data-page="overview">
+        <div class="card">
+            <div class="card-label">Total Transactions</div>
+            <div class="card-value cyan" id="totalTransactions">--</div>
+            <div class="card-note">Transactions in current dataset</div>
+        </div>
+
+        <div class="card">
+            <div class="card-label">Detected Alerts</div>
+            <div class="card-value red" id="totalAlerts">--</div>
+            <div class="card-note">Detection results returned by the engine</div>
+        </div>
+
+        <div class="card">
+            <div class="card-label">High-Risk Alerts</div>
+            <div class="card-value amber" id="highRiskAlerts">--</div>
+            <div class="card-note">Alerts marked HIGH risk</div>
+        </div>
+
+        <div class="card">
+            <div class="card-label">Detection Rules</div>
+            <div class="card-value green">04</div>
+            <div class="card-note">Configured detection patterns</div>
+        </div>
+    </section>
+
+    <section class="panel" data-page="alerts">
+        <div class="panel-heading">
+            <h3>Fraud Detection Alerts</h3>
+            <span id="alertUpdate">Waiting for data...</span>
+        </div>
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Account</th>
+                        <th>Alert Type</th>
+                        <th>Description</th>
+                        <th>Amount</th>
+                        <th>Risk</th>
+                        <th>Detected At</th>
+                    </tr>
+                </thead>
+                <tbody id="alertsTable">
+                    <tr>
+                        <td colspan="6" class="message">Loading alerts...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>    <!-- Add Transaction Form -->
+    <section class="panel" data-page="add-transaction">
+        <div class="panel-heading">
+            <h3>Add Transaction</h3>
+            <span>Submit a transaction to the backend</span>
+        </div>
+
+        <form id="transactionForm">
+            <div class="form-grid">
+                <div class="form-field">
+                    <label for="transactionId">Transaction ID</label>
+                    <input
+                        id="transactionId"
+                        name="transactionId"
+                        type="text"
+                        placeholder="TXN017"
+                        maxlength="50"
+                        required
+                    >
+                </div>
+
+                <div class="form-field">
+                    <label for="fromAccount">Sender Account</label>
+                    <input
+                        id="fromAccount"
+                        name="fromAccount"
+                        type="text"
+                        placeholder="ACCOUNT_X"
+                        maxlength="100"
+                        required
+                    >
+                </div>
+
+                <div class="form-field">
+                    <label for="toAccount">Receiver Account</label>
+                    <input
+                        id="toAccount"
+                        name="toAccount"
+                        type="text"
+                        placeholder="ACCOUNT_Y"
+                        maxlength="100"
+                        required
+                    >
+                </div>
+
+                <div class="form-field">
+                    <label for="amount">Amount (INR)</label>
+                    <input
+                        id="amount"
+                        name="amount"
+                        type="number"
+                        placeholder="12000"
+                        min="0.01"
+                        step="0.01"
+                        required
+                    >
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button
+                    id="submitTransactionButton"
+                    class="primary-button"
+                    type="submit"
+                >
+                    Add Transaction
+                </button>
+
+                <span
+                    id="formMessage"
+                    class="form-message"
+                    role="status"
+                    aria-live="polite"
+                ></span>
+            </div>
+        </form>
+    </section>
+
+    <!-- Transaction Monitor -->
+   <section class="panel" data-page="transactions">
+        <div class="panel-heading">
+            <h3>Transaction Monitor</h3>
+            <span id="transactionUpdate">Waiting for data...</span>
+        </div>
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Transaction ID</th>
+                        <th>Sender</th>
+                        <th>Receiver</th>
+                        <th>Amount</th>
+                        <th>Timestamp</th>
+                    </tr>
+                </thead>
+
+                <tbody id="transactionsTable">
+                    <tr>
+                        <td colspan="5" class="message">
+                            Loading transactions...
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <div class="footer">
+        <span>Fraud Ring Detector · Academic Project</span>
+        <span>
+            Auto-refresh: 5 seconds ·
+            <span id="lastUpdated">Not updated yet</span>
+        </span>
+    </div>
+        </main>
+    </div>
+</div>
+
+<script src="/js/app.js"></script>
+<script src="/js/alerts.js"></script>
+<script src="/js/transactions.js"></script>
+<script src="/js/navigation.js"></script>
+
+</body>
+</html>

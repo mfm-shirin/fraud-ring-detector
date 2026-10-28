@@ -1,13 +1,30 @@
+
 package com.example.fraudring.model;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import java.time.Instant;
 
+@Entity
+@Table(name = "transactions")
 public class Transaction {
 
+    @Id
+    @Column(name = "transaction_id", nullable = false, unique = true)
     private String transactionId;
+
+    @Column(name = "from_account", nullable = false)
     private String fromAccount;
+
+    @Column(name = "to_account", nullable = false)
     private String toAccount;
+
+    @Column(nullable = false)
     private double amount;
+
+    @Column(nullable = false)
     private Instant timestamp;
 
     public Transaction() {

@@ -85,7 +85,7 @@ public class FraudDetectionService {
         // Rule 2: Detect unusually large transactions.
         for (Transaction transaction : transactions) {
 
-            if (transaction.getAmount() > LARGE_TRANSACTION_THRESHOLD) {
+            if (transaction.getAmount() >= LARGE_TRANSACTION_THRESHOLD) {
 
                 FraudAlert alert = new FraudAlert(
                         transaction.getFromAccount(),

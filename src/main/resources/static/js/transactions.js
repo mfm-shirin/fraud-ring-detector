@@ -48,11 +48,30 @@ transactionForm.addEventListener("submit", async function (event) {
     submitTransactionButton.textContent = "Adding...";
 
     try {
+        // Spring Security needs a CSRF token on POST requests.
+        const csrfResponse = await fetch("/api/csrf", {
+            credentials: "same-origin",
+            cache: "no-store"
+        });
+
+        if (csrfResponse.status === 401) {
+            window.location.replace("/login.html");
+            return;
+        }
+
+        if (!csrfResponse.ok) {
+            throw new Error("Could not get a security token. Please refresh.");
+        }
+
+        const csrf = await csrfResponse.json();
+
         const response = await fetch("/api/transactions", {
             method: "POST",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                [csrf.headerName]: csrf.token
             },
+            credentials: "same-origin",
             body: JSON.stringify(transaction)
         });
 
